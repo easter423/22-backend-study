@@ -1,28 +1,55 @@
 <?php
-$username=$_POST["username"]??null;
-$userpw=$_POST["userpw"]??null;
-if($_SERVER["REQUEST_METHOD"]=="POST"){
-    if ($username=="hasa"&&$userpw="ggy"){
-        $islogin=True;
-    }else{
-        $islogin=False;
+
+declare(strict_types=1);
+class Human
+{
+    private string $name;
+    private string $id;
+
+    function set_name(string $name)
+    {
+        $this->name = $name;
     }
-    
+
+    function get_name(): string
+    {
+        return $this->name;
+    }
 }
 
+class Animal
+{
+    private string $name;
+    private string $id;
 
-// 로그인 관련 로그 작업
-// 로그인 요청 성공/실패 여부 알림 발송
+    function set_name(string $name)
+    {
+        $this->name = $name;
+    }
 
-?>
+    function get_name(): string
+    {
+        return $this->name;
+    }
+}
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-    </head>
-<body>
-    <?php
-    require($islogin ? "isLogin.php":"isNotLogin.php")
-    ?>
-</body>
+$easteregg423 = new Human();
+$cat = new Animal();
+
+$easteregg423->set_name('하건영');
+$cat ->set_name('고먐미');
+
+echo($easteregg423->get_name());
+echo($cat->get_name());
+
+$objects=[$easteregg423, $cat];
+
+foreach ($objects as $object){
+    if ($object instanceof Human){
+        echo($object->get_name() . "은 Human입니다.");
+    }else{
+        echo($object->get_name() . "은 Human이 아닙니다.");
+    }
+    
+    echo ("<br/>");
+}
