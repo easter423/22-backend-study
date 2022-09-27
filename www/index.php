@@ -1,59 +1,68 @@
 <?php
 
 declare(strict_types=1);
+
 class Human
 {
-    private string $name;
-    private string $id;
-    protected bool $is_happy;
-    protected int $sex;
+    public string $name = "noname";
+    protected ?int $sex = null;    //0: 남, 1: 여, null: 기본값
 
-    function __construct(string $name)
+    public function __construct(string $name)
     {
-        $this->name=$name;
-        echo("Constructing Object $this->name<br/>");
+        $this->name = $name;
     }
-
-    function __destruct()
+    public function go_to_toilet()
     {
-        echo("Destructing Object $this->name<br/>");
-    }
-
-    function get_name(): string
-    {
-        return $this->name;
-    }
-
-    public function get_is_happy()
-    {
-        return $this->is_happy;
-    }
-
-    public function get_other_is_happy(Human $human)
-    {
-        return $human->is_happy;
-    }
-
-    public function set_is_happy_by_number($score)
-    {
-        if ($score>50) $this->is_happy = true;
-        else $this->is_happy = false;
+        echo("성별이 정의되지 않음<br/>");
     }
 }
 
-$easteregg423 = new Human('하건영');
-$cat = new Human('고먐미');
+class Male extends Human
+{
+    protected ?int $sex=0;
+    public function say_name()
+    {
+        echo("$this->name입니다!");
+    }
+    public function go_to_toilet()
+    {
+        echo("남자 화장실은 1층입니다.<br/>");
+    }
+
+}
+
+class Female extends Human
+{
+    protected ?int $sex=1;
+    public function go_to_women_toilet()
+    {
+        $is_men = false;
+    }
+    public function go_to_toilet()
+    {
+        echo("여자 화장실은 3층입니다.<br/>");
+    }
+}
+
+
+$easteregg423 = new Male('하건영');
+$cat = new Female('고먐미');
 $dog = new Human('댕댕이');
-$easteregg423->set_is_happy_by_number(79);
-$cat->set_is_happy_by_number(88);
-$dog->set_is_happy_by_number(47);
 
-$objects=[$easteregg423, $cat, $dog];
+$humans=[$easteregg423, $cat, $dog];
 
-echo(($easteregg423->get_other_is_happy($cat) ? "행" : "불") . "<br/>");
-
-foreach ($objects as $object){
-    $name = $object->get_name();
-    $is_happy = $object->get_is_happy();
-    echo("${name}는 현재 " . ($is_happy ? "행복" : "불행") . "하다.<br/>");
+foreach($humans as $human){
+    $human->go_to_toilet();
+    echo("{$human->name}은(는) ");
+    if($human instanceof Male){
+        echo("남자입니다.<br/>");
+    }else{
+        echo("남자가 아닙니다.<br/>");
+    }
+    if($human instanceof Human){
+        echo("사람입니다.<br/>");
+    }else{
+        echo("사람이 아닙니다.<br/>");
+    }
+    echo("<br/>");
 }
